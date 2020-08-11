@@ -4,7 +4,7 @@ import './App.scss';
 
 function App() {
   return (
-    <div className="App">
+    <div className="root">
       <TodoContainer text="Mein Text kommt als property"/>
     </div>
   );
