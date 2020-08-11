@@ -2,30 +2,28 @@ import React from 'react';
 import TodoItem from "./TodoItem/TodoItem";
 import Header from "./Header";
 import TodoInput from './TodoInput';
-import '../App.scss'
+import '../App.scss';
+import axios  from 'axios'
 
 // class component
 class TodoContainer extends React.Component {
 
     state = {
-        todos: [
-            {
-                id: 1,
-                title: "React lernen",
-                completed: false
-            },
-            {
-                id: 2,
-                title: "JavaScript auffrischen (Klassen, usw.)",
-                completed: false
-            },
-            {
-                id: 3,
-                title: "Props verstehen",
-                completed: false
-            }
-        ]
+        todos: []
     }
+
+
+   componentWillMount  () {
+        axios.get('https://jsonplaceholder.typicode.com/todos',{
+            params: {_limit : 15}
+        })
+        .then(
+            response => {
+                  this.setState({todos: response.data}) 
+        }).catch(err => {
+            console.log(err)
+        });
+   }
     onChangeCheckBox = (id) => {
         const updateTodo = this.state.todos.map( todo => {
             if(todo.id === id){
@@ -48,7 +46,6 @@ class TodoContainer extends React.Component {
 
     handleAddTodo = (todo) => {
         let id = this.state.todos.length +1 
-        console.log(id)
             let addNewTodo ={
                 id:id,
                 title: todo,
